@@ -1,0 +1,85 @@
+﻿@using BilgeAdam___Sumo.DataAccess;
+@model List<Tag>
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/assets/Bootstrap/js/jquery-3.2.1.js"></script>
+<div class="col-sm-4" style="margin-top:-55px !important; margin-left:15px !important;">
+    <h3>Etiketler</h3>
+</div><br />
+
+<div class="col-sm-12">
+    <ul class="list-group">
+
+        @foreach (Tag item in (List<Tag>)TempData["Tags"])
+        {
+            
+            <li class="col-sm-3 list-group-item" style="color:#fc7d03;line-height:20px;padding-bottom:10px;">
+                <a href="~/Tag/Index?tagId=@item.Id&filterId=0&pageNumber=1" style="text-decoration:none;background-color:#efefef; border:2px solid #ddd; color:#4e4d4d;font-size:14px" onmouseover="TagDetails()" data-toggle="popover" title="@item.TagName" data-html="true" data-content="Açıklama:@item.Description <br/> Takipçi Sayısı:@item.TagFollows.Count  <br/> Soru Sayısı:@item.Questions.Count">@item.TagName </a><span style="font-size:14px"> </span> <input id="@item.Id" name="followButton" type="button" class="btn btn-success btn-xs pull-right" value="Takip ET"/>
+                <br />
+            </li>
+        }
+    </ul>
+</div>
+
+
+<script>
+    
+    function TagDetails() {
+        debugger;
+        $(document).ready(function () {
+            $('[data-toggle="popover"]').popover({ trigger: "hover", placement: "bottom" })
+            ;
+
+        });
+
+    }
+    
+    @*$(document).ready(function () {
+        var btnList=document.getElementsByClassName("followButton");
+        if (@TempData["UserId"]!=0) {
+            $.ajax({
+                url:"/Tag/GetFollow/"+@TempData["UserId"],
+                type:"get",
+                
+                success:function (data) {
+                    for (var i = 0; i < b; i++) {
+                        if (data.) {
+    
+                        }
+    
+                    }
+                }
+            })
+    
+        }
+    
+    })*@
+    $("input[type='button'][name='followButton']").click(function (e) {
+        debugger;
+        $this = $(this);
+        $.ajax({
+            url: "/Tag/FollowTag",
+            type: "POST",
+            
+            datatype:"json",
+            data: {
+                id: $(this).attr('id'),
+                userId:@TempData["UserId"],
+            },
+            success: function (msg) {
+               
+                if (msg=="Yeni Takip") {
+                    $this.val("Takip Ediliyor");
+                }
+                else {
+                    $this.val("Takip ET");
+                }
+            }
+        })
+    });
+
+
+</script>

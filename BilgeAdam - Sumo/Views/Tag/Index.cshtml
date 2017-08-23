@@ -1,0 +1,184 @@
+﻿@using BilgeAdam___Sumo.DataAccess;
+@model List<Question>
+@{
+    ViewBag.Title = "Index";
+}
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body id="ListContainer">
+    <div class="container">
+        <div class="col-sm-4" style="margin-top:-55px !important">
+            <h3>@(((Tag)TempData["TagInformation"]).TagName)</h3>
+        </div>
+        <div class="col-sm-8 Filter" style="margin-left:65px !important;margin-top:-28px !important">
+            <li class="dropdown">
+                <a id="LevelDropDown" class="dropdown-toggle pull-right" data-toggle="dropdown" href="#">
+                    Zorluk Seviyesi
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu pull-right" style="margin-top:20px !important">
+                    <li><a class="FilterOption" href="#" data-code="7">Başlangıç</a></li>
+                    <li><a class="FilterOption" href="#" data-code="6">Orta</a></li>
+                    <li><a class="FilterOption" href="#" data-code="5">İleri</a></li>
+                </ul>
+            </li>
+            <span class="pull-right">&nbsp;|&nbsp;</span>
+            <a href="#" class="FilterOption pull-right" data-code="4">Cevaplanmamış</a><span class="pull-right">&nbsp;|&nbsp;</span>
+            <a href="#" class="FilterOption pull-right" data-code="3">En Fazla Oy</a><span class="pull-right">&nbsp;|&nbsp;</span>
+            <a href="#" class="FilterOption pull-right" data-code="2">Popüler</a><span class="pull-right">&nbsp;|&nbsp;</span>
+            <a href="#" class="FilterOption pull-right" data-code="1">Yeni</a><span class="pull-right">&nbsp;|&nbsp;</span>
+            <a href="#" class="FilterOption pull-right" data-code="0">Etkin</a>
+        </div>
+        <hr class="pull-left" style="width:815px !important;margin-top:-5px !important" />
+
+        <div class="container">
+            <div class="col-sm-9" style="float:left;margin-left:-40px !important">
+                @foreach (Question item in Model)
+            {
+                    <div class="row">
+                        <div class="Question col-sm-12">
+                            <div class="col-sm-3">
+                                <div class="col-sm-3">
+                                    <p class="Vote"> Oy</p>
+                                    <p class="center1">@item.QuestionVotes.Count</p>
+                                </div>
+                                <div class="col-sm-3">
+                                    <p class="Comment"> Yorum</p>
+                                    <p class="center2">@item.Answers.Count</p>
+                                </div>
+                                <div class="col-sm-offset-2 col-sm-4">
+                                    <p class="View"> Görüntüleme</p>
+                                    <p class="center3">@item.ViewsCount</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-offset-1 col-sm-8">
+                                <a href="~/Question/Index?questionId=@item.Id"><h4 class="Title">@item.Title</h4></a>
+                                <br />
+                                <p>
+                                    Etiketler : @{
+                                        int i = 0;
+                                        foreach (var item2 in item.Tags)
+                                        {
+                                            <a href="~/Tag/Index?tagId=@item2.Id&filterId=0&pageNumber=1">@item2.TagName</a>
+                                            if (i != item.Tags.Count - 1)
+                                            {
+                                                <span>
+                                                    ,
+                                                </span>
+                                            }
+                                            i++;
+                                        }
+                                    }
+                                </p>
+                                <p class="Rep pull-right"> &nbsp;| @item.User.RepPoint</p>
+                                <a href="#" class="Name pull-right">@item.User.FirstName @item.User.LastName</a>
+                                <p class="When pull-right">
+                                    @{
+                                        TimeSpan time = DateTime.Now - item.CreateTime;
+                                        if (time.Days > 365)
+                                        {
+                                            <span>@(time.Days / 365) Yıl önce | &nbsp;</span>
+                                        }
+                                        else if (time.Days > 30)
+                                        {
+                                            <span>@(time.Days / 30) Ay önce | &nbsp;</span>
+                                        }
+                                        else if (time.Days > 0)
+                                        {
+                                            <span>@time.Days Gün önce | &nbsp;</span>
+                                        }
+                                        else if (time.Hours > 0)
+                                        {
+                                            <span>@time.Hours Saat önce | &nbsp;</span>
+                                        }
+                                        else if (time.Minutes > 0)
+                                        {
+                                            <span>@time.Minutes Dakika önce | &nbsp;</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Az Önce | &nbsp;</span>
+                                        }
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                                        }
+                @for (int i = (int)TempData["Count"]; i > 0; i--)
+            {
+                if (i == (int)TempData["PageNumber"])
+                {
+                        <button type="button" style="background-color:#64bcfc" class="Paging btn btn-default pull-right" data-filterno="@TempData["Filter"]" data-tagid="@(((Tag)TempData["TagInformation"]).Id)" value="@(i)">@(i)</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="Paging btn btn-default pull-right" data-filterno="@TempData["Filter"]" data-tagid="@(((Tag)TempData["TagInformation"]).Id)" value="@(i)">@(i)</button>
+                    }
+
+                }
+
+            </div>
+            <div class="col-sm-3">
+                <div class="row" style="margin-top:-20px;margin-left:-20px;width:90% !important">
+                    <h2>Hakkında</h2>
+                    <hr />
+                    <h4>@(((Tag)TempData["TagInformation"]).Description)</h4>
+                    <h2 style="float:left;margin-left:10px"> @(((Tag)TempData["TagInformation"]).TagFollows.Count)</h2>
+                    <h5 style="float:left;margin-top:35px">&nbsp; Takipçi &nbsp; &nbsp;</h5>
+                    <h2 style="float:left"> @(((Tag)TempData["TagInformation"]).Questions.Count)</h2>
+                    <h5 style="float:left;margin-top:35px">&nbsp; Adet Soru </h5>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</body>
+
+@section script{
+    <script>
+        $(document).ready(function () {
+            var options = $('.FilterOption');
+            options.on("click", function (e) {
+                e.preventDefault();
+                var code = $(this).data('code');
+                $.ajax({
+                    url: '/Tag/Index?tagId=' + @(((Tag)TempData["TagInformation"]).Id) + '&filterId=' + code + '&pageNumber=1',
+                    method: 'post',
+                    success: function (view) {
+                        history.pushState('', '', this.url.replace(/[&?]X-Requested-With=XMLHttpRequest/i, ""));
+                        $('#ListContainer').html(view);
+                        $('#LevelDropDown').dropdown();
+                        var pages = $('.Paging');
+                        pages.on("click", fc);
+                    }
+                });
+            });
+            var pages = $('.Paging');
+            pages.on("click", fc);
+            $('#LevelDropDown').dropdown();
+
+            function fc(e) {
+                e.preventDefault();
+                var number = $(this).val();
+                $.ajax({
+                    url: '/Tag/Index?tagId=' + $(this).data('tagid') + '&filterId=' + $(this).data('filterno') + '&pageNumber=' + number,
+                    method: 'post',
+                    success: function (view) {
+                        history.pushState('', '', this.url.replace(/[&?]X-Requested-With=XMLHttpRequest/i, ""));
+                        $('#ListContainer').html(view);
+                        $('#LevelDropDown').dropdown();
+                        var pages = $('.Paging');
+                        pages.on("click", fc);
+                        $('#ListContainer').animate({ scrollTop: 0 }, 300);
+                    }
+                });
+            }
+        });
+    </script>
+}

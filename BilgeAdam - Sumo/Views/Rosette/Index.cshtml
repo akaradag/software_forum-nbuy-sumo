@@ -1,0 +1,92 @@
+﻿@using BilgeAdam___Sumo.DataAccess
+@model List<Rosette>
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body id="rosetss">
+    <div class="col-md-9">
+        <div class="roseteList">
+            <h3>Rozetler</h3>
+            <p>Soru ve cevaplara yaptığın katılım çeşitli rozetlerle ödüllendirilir. Rozetler hakkında bilgiyi aşağıda bulabilirsin.</p>
+            <hr style="width:750px;" />
+            <ul class="rosetImg">
+                @foreach (Rosette item in Model)
+                {
+                    string base64 = Convert.ToBase64String(item.Image);
+                    var imgSrc = string.Format("data:image/gif;base64,{0}", base64);
+                    <li>
+                        <a href="~/Rosette/User?rosetteId=@item.Id&pageNumber=1" class="medal"><img src="@imgSrc" /></a>
+                        <b>
+                            <a href="~/Rosette/User?rosetteId=@item.Id&pageNumber=1">@item.RosetteName</a>
+                            (@item.UserRosettes.Count)
+                        </b>
+                        <br />
+                        @item.Description
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-3" style="display:inline">
+        <br />
+        <div class="information">
+            <span>Altın</span>
+            <p>
+                Altın rozetler kazanılması en zor olanlardır. Kazanmak için topluluğa katkıda bulunmalı ve özveri göstermelisin.
+            </p>
+            <span>Gümüş</span>
+            <p>
+                Gümüş rozet kazanmak pek çok gönderiyi düzenleme ve yüzlerce kez görüntülenen bir soru sormak gibi ileri seviyede katılım gerektirir.
+            </p>
+            <span>Bronz</span>
+            <p>
+                Bronz rozetler kazanılması en kolay olanlardır, bir gönderiyi düzenleme ya da oylama gibi basit katılım yeterlidir.
+            </p>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-9">
+            <div class="col-sm-12 pull-left" style="margin-left:-30px !important">
+                @for (int i = (int)TempData["Count"]; i > 0; i--)
+                {
+                    if (i == (int)TempData["PageNumber"])
+                    {
+                        <button type="button" style="background-color:#64bcfc" class="Paging btn btn-default pull-right" value="@(i)">@(i)</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="Paging btn btn-default pull-right" value="@(i)">@(i)</button>
+                    }
+
+                }
+            </div>
+        </div>
+    </div>
+</body>
+@section script{
+    <script type="text/javascript">
+        var pages = $('.Paging');
+        pages.on("click", fc);
+        function fc(e) {
+            debugger;
+            e.preventDefault();
+            var number = $(this).val();
+            $.ajax({
+                url: '/Rosette/Index?' + 'PageNumber=' + number,
+                method: 'post',
+                success: function (view) {
+                    history.pushState('', '', this.url.replace(/[&?]X-Requested-With=XMLHttpRequest/i, ""));
+                    $('#rosetss').html(view);
+                    var pages = $('.Paging');
+                    pages.on("click", fc);
+                    $('#rosetss').animate({ scrollTop: 0 }, 300);
+                }
+            });
+        }
+
+    </script>
+}
+

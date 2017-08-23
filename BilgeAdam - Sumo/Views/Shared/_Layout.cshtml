@@ -1,0 +1,227 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Bilge Adam SOF</title>
+    <link href="~/assets/Site/css/reset.css" rel="stylesheet" />
+    <link href="~/assets/Bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/assets/Site/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/assets/Site/css/main.css" rel="stylesheet" />
+    <link href="~/assets/MCK-Style.css?date='10/11/2016'" rel="stylesheet" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+    <link rel="stylesheet" href="~/assets/css/form-elements.css">
+    <link rel="stylesheet" href="~/assets/css/style.css">
+    <link href="~/assets/AK_Styles.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top myNavBar">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="~/Home/Index" class="navbar-brand" style="margin-top:-15px"></a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <div class="row">
+                    <div class="col-sm-7">
+                        <ul class="nav navbar-nav" style="margin-top:10px;margin-left:30px;">
+                            <li><a id="abc" href="~/Home/Index" class="NavBarItems">Sorular</a></li>
+                            <li><a href="#" class="NavBarItems">İş İlanları</a></li>
+                            <li><a href="#" class="NavBarItems">Makaleler</a></li>
+                            <li><a href="~/Tag/List" class="NavBarItems">Etiketler</a></li>
+                            <li><a href="@Url.Content("~/Rosette/Index")" class="NavBarItems">Rozetler</a></li>
+                            <li><a href="~/User/List" class="NavBarItems">Kullanıcılar</a></li>
+                        </ul>
+                    </div>
+                    <ul id="UserMenu" class="nav navbar-nav" style="float:left;margin-top:10px;margin-left:-5px !important;">
+                        <li id="loginLi" class=""><a href="#" class="NavBarItems launch-modalLogin" data-modal-id="modal-login"><i class="fa fa-sign-in" aria-hidden="true"></i> Üye Girişi</a></li>
+                        <li id="registerLi" class=""><a href="#" class="NavBarItems launch-modalRegister" data-modal-id="modal-register"><i class="fa fa-user-plus" aria-hidden="true"></i> Kayıt Ol</a></li>
+                        <li id="pictureLi" class="hide"><div class="NavBarItems" style="margin-top:10px;width:25px;height:25px"><img style="width:100%" src="~/assets/Site/img/user-default.png" aria-hidden="true" /></div></li>
+                        <li id="nameLi" class="hide"></li>
+                        <li id="notificationLi" class="hide"><a href="#" class="NavBarItems"><i class="fa fa-bell" aria-hidden="true"></i></a></li>
+                        <li id="messageLi" class="hide"><a href="#" class="NavBarItems"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
+                        <li id="accountLi" class="hide dropdown-menu">
+                            <a class="NavBarItems dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog" aria-hidden="true"></i></a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li><a href="#">Ayarlar</a></li>
+                                <li><a href="#">Yardım</a></li>
+                                <li><a id="logout" href="/User/Logout">Çıkış</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <br />
+        <input type="text" class="text-success form-control" style="margin-top:85px !important;width:70% !important;margin-left:10px !important;background-color:#E7F4FA" placeholder="Soru, Etiket, Rozet ya da Kullanıcı Ara " />
+        <a class="btn-default form-control" href="#" style="text-align:center;color:white;background-color:#475e6d;width:7% !important;margin-left:72% !important;margin-top:-33px !important"><span class="btn-label" style="border-radius:5px;width:78px !important;margin-top:-5px !important"><i class="fa fa-search" aria-hidden="true"></i> &nbsp;Ara</span></a>
+        <a id="AskButton" class="btn-default form-control" href="~/Question/Create" style="text-align:center;color:white;background-color:#475e6d;width:13% !important;margin-left:80% !important;margin-top:-34px !important"><span class="btn-label" style="border-radius:5px;width:147px !important;margin-top:-5px !important"><i class="fa fa-question" aria-hidden="true"></i> &nbsp;Soru Sor</span></a>
+        <a class="btn-default form-control" href="~/Home/SSS" style="text-align:center;color:white;background-color:#475e6d;width:21% !important;margin-left:72% !important;margin-top:10px !important"><span class="btn-label" style="border-radius:5px;width:237px !important;margin-top:-5px !important"><i class="fa fa-question" aria-hidden="true"></i> &nbsp;Sıkça Sorulan Sorular</span></a>
+    </div>
+    <div class="container body-content" style="margin-top:3px !important;">
+        <div class="row">
+            @RenderBody()
+        </div>
+
+    </div>
+    <footer class="footer-nav">
+        <div style="background-color:#2C3135;height:100px">
+            <div class="container">
+            </div>
+        </div>
+    </footer>
+    <script src="~/assets/Bootstrap/js/jquery-3.2.1.js"></script>
+    <script src="~/assets/Bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/assets/js/jquery.backstretch.min.js"></script>
+
+    @Html.Partial("_RegisterModal")
+    @Html.Partial("_LoginModal")
+    @RenderSection("script", false)
+
+    @* myProfile Js *@
+    @RenderSection("myProfile_script", false)
+
+    <script type="text/javascript">
+
+
+        $('#logout').on('click',function () {
+            debugger;
+            $('#loginLi').removeClass("hide");
+            $('#registerLi').removeClass("hide");
+            $('#pictureLi').addClass("hide");
+            $('#nameLi').addClass("hide");
+            $('#notificationLi').addClass("hide");
+            $('#messageLi').addClass("hide");
+            $('#accountLi').addClass("hide");
+        });
+
+        $(document).ready(function () {
+            @if (TempData["IsLogged"] != null)
+            {
+                <text>
+            $('#loginLi').addClass("hide");
+            $('#registerLi').addClass("hide");
+            $('#pictureLi').removeClass("hide");
+            $('#nameLi').removeClass("hide");
+            $('#nameLi').html('<a href="~/User/ShowProfile/@TempData["UserId"]" class="NavBarItems">@TempData["UserName"].ToString()</a>')
+            $('#notificationLi').removeClass("hide");
+            $('#messageLi').removeClass("hide");
+            $('#accountLi').removeClass("hide");
+            $('#UserMenu').attr("style", "float:left;margin-top:10px;margin-left:-50px !important;");
+            </text>
+                TempData.Keep("IsLogged");
+                TempData.Keep("UserName");
+                TempData.Keep("UserId");
+            }
+            else
+            {
+                <text>
+            $('#AskButton').attr("data-modal-id", "modal-register");
+            $('#AskButton').addClass("launch-modalRegister");
+            </text>
+            }
+            //Register Modalı JS Kodları
+
+            $('.registration-form input[type="text"], .registration-form input[type="password"]').on('focus', function () {
+                $(this).removeClass('input-error');
+            });
+            $('.launch-modalRegister').on('click', function (e) {
+                e.preventDefault();
+                $('#' + $(this).data('modal-id')).modal();
+            });
+            $('.registration-form').on('submit', function (e) {
+                $(this).find('input[type="text"], input[type="password"]').each(function () {
+                    if ($(this).val() == "") {
+                        e.preventDefault();
+                        //burada texboxları kırmızı çiziyor
+                        $(this).addClass('input-error');
+                    }
+                    else {
+                        //burada texboxların kırmızısını kaldırıyor
+                        e.preventDefault();
+                        $(this).removeClass('input-error');
+                    }
+                });
+                $.ajax({
+                    url: '@Url.Action("SaveUser","Home")',
+                    method: 'post',
+                    data: { userMail: $('#form-email').val(), password: $('#form-password').val(), firstName: $('#form-first-name').val(), lastName: $('#form-last-name').val() },
+                    success: function (jsondata) {
+                        if (jsondata == "") {
+                            //$('#modal-register').modal('hide');
+                            location.href = "@Url.Action("Index","Home")";
+                        }
+                        else {
+                            $('#ErrorDiv').removeAttr("hidden");
+                            $('#ErrorDiv').text(jsondata);
+                        }
+                    }
+                });
+            });
+
+            //Login Modalı JS Kodları
+
+            $('.login-form input[type="text"], .login-form input[type="password"]').on('focus', function () {
+                $(this).removeClass('input-error');
+            });
+            $('.launch-modalLogin').on('click', function (e) {
+                e.preventDefault();
+                $('#' + $(this).data('modal-id')).modal();
+            });
+            $('.login-form').on('submit', function (e) {
+                $(this).find('input[type="text"], input[type="password"]').each(function () {
+                    if ($(this).val() == "") {
+                        e.preventDefault();
+                        //burada texboxları kırmızı çiziyor
+                        $(this).addClass('input-error');
+                    }
+                    else {
+                        //burada texboxların kırmızısını kaldırıyor
+                        e.preventDefault();
+                        $(this).removeClass('input-error');
+                    }
+                });
+                $.ajax({
+                    url: '@Url.Action("ControlUserInformation", "Home")',
+                    method: 'post',
+                    data: { userMail: $('#form-email-lg').val(), password: $('#form-password-lg').val() },
+                    success: function (jsondata) {
+                        if (jsondata == "") {
+                            //$('#modal-register').modal('hide');
+                            location.href = "@Url.Action("Index","Home")";
+                        }
+                        else {
+                            $('#ErrorDiv-lg').removeAttr("hidden");
+                            $('#ErrorDiv-lg').text(jsondata);
+                        }
+                    }
+                });
+            });
+        });
+
+    </script>
+
+    @* Takipçi listesi arama script'i *@
+    <script>
+        $(function () {
+            $('#input-search').on('keyup', function () {
+                var rex = new RegExp($(this).val(), 'i');
+                $('.searchable-container .items').hide();
+                $('.searchable-container .items').filter(function () {
+                    return rex.test($(this).text());
+                }).show();
+            });
+        });
+
+    </script>
+
+</body>
+</html>

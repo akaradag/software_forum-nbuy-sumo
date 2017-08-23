@@ -1,0 +1,171 @@
+﻿@model BilgeAdam___Sumo.Models.UserInfoVM
+
+@{
+    ViewBag.Title = "Profili Görüntüle";
+}
+
+<section>
+    @* Content Left Start *@
+    <aside class="col-lg-3 gray-background" id="profile-head">
+        <div class="text-center">
+            
+            <img src="@Model.Image" alt="" class="profile-img" />
+        </div>
+        <div class="profile-details text-center">
+            <h2>
+                <label>@Model.FirstName.ToUpper()</label>
+                <label>@Model.LastName.ToUpper()</label>
+            </h2>
+            <div class="darkblue-line">
+            </div>
+            <label><a href="~/User/FollowList/@Model.Id">@Model.Followers.Count Takipçi</a></label>
+            <label>@Model.RepPoint İtibar Puanı</label>
+            <label>
+                Profil Oluşturulma Tarihi
+                <br />
+                @Model.CreateDate
+            </label>
+            <label>@Model.Role</label>
+        </div>
+    </aside>
+    @* Content left End *@
+
+    @* Content Right Start *@
+    <aside class="col-lg-9">
+        <h1 class="page-header">Profili Görüntüle</h1>
+
+
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a data-toggle="tab" href="#pshow-personal-info">Kişisel Bilgiler</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#pshow-activities">Aktiviteler</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#pshow-tags">Rozetler</a>
+            </li>
+
+        </ul>
+        @if ((int?)TempData["UserId"] == Model.Id)
+        {
+            <a id="edit-profile-link" href="~/User/MyProfile/@TempData["UserId"]"><span><i class="fa fa-pencil" aria-hidden="true"></i></span> Profili Düzenle</a>
+            TempData.Keep("UserId");
+        }
+        else
+        {
+            TempData.Keep("UserId");
+        }
+
+
+        <div class="tab-content">
+            @* Kişisel Bilgiler Start *@
+            <div id="pshow-personal-info" class="tab-pane fade in active">
+                <h3>Kişisel Bilgiler</h3>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="btn-group user-info-label col-lg-12">
+                            <button type="button" class="btn btn-default" disabled>Ad</button>
+                            <button type="button" class="btn btn-default" name="FirstName" disabled>@Model.FirstName</button>
+                        </div>
+                        <div class="btn-group user-info-label col-lg-12">
+                            <button type="button" class="btn btn-default" disabled>Soyad</button>
+                            <button type="button" class="btn btn-default" name="LastName" disabled>@Model.LastName</button>
+                        </div>
+                        <div class="btn-group user-info-label col-lg-12">
+                            <button type="button" class="btn btn-default" disabled>Doğum Tarihi</button>
+
+                            <button type="button" class="btn btn-default" name="BirthDate" disabled>@Model.BirthDate</button>
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="btn-group user-info-label col-lg-12">
+                            <button type="button" class="btn btn-default" disabled>Konumu</button>
+                            <button type="button" class="btn btn-default" name="address" disabled>@Model.Address</button>
+                        </div>
+                        <div class="btn-group user-info-label col-lg-12">
+                            <button type="button" disabled class="btn btn-default">E-posta</button>
+                            <button type="button" disabled class="btn btn-default" name="Mail">@Model.Mail</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @* Kişisel Bilgiler Tab End *@
+            @* Aktiviteler Tab Start *@
+            <div id="pshow-activities" class="tab-pane fade">
+                <h3>Aktiviteler</h3>
+                <div class="row">
+
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a data-toggle="tab" href="#user-questions">Sorular</a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#user-answers">Cevaplar</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+
+                        <div id="user-questions" class="tab-pane fade in active">
+                            @* Sorular *@
+                            @for (int i = 0; i < Model.Questions.Count; i++)
+                            {
+                                <div class="activity-div">
+                                    <span><i class="fa fa-question-circle" aria-hidden="true"></i></span>
+                                    <a href="#">@Model.Questions[i].Title</a>
+                                    <span class="activity-date pull-right">@Model.Questions[i].CreateTime</span>
+                                </div>
+                            }
+                        </div>
+
+                        <div id="user-answers" class="tab-pane fade">
+                            @* Cevaplar *@
+                            @for (int i = 0; i < Model.Answers.Count; i++)
+                            {
+                                <div class="activity-div">
+                                    <span><i class="fa fa-commenting" aria-hidden="true"></i></span>
+                                    <a href="#">@Model.Answers[i].Question.Title</a>
+                                    <span class="activity-date pull-right">@Model.Answers[i].CreateTime</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            @* Aktiviteler Tab End *@
+            @* Rozetler Tab Start *@
+            <div id="pshow-tags" class="tab-pane fade">
+                <h3>Etiketler</h3>
+                <div class="row">
+                    @for (int i = 0; i < Model.Rosettes.Count; i++)
+                    {
+                        <div id="user-rosette" class="col-lg-4">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    @{
+                                        string base64 = Convert.ToBase64String(Model.Rosettes[i].Image);
+                                        var imgSrc = string.Format("data:image/gif;base64,{0}", base64);
+                                    }
+                                    <img src="@imgSrc" />
+                                </div>
+                                <div class="col-lg-9">
+                                    <b>@Model.Rosettes[i].RosetteName</b>
+                                    <p>Rozet @Model.Rosettes[i].Description</p>
+                                </div>
+                            </div>
+                        </div>
+                                        }
+                </div>
+            </div>
+            @* Rozetler Tab End *@
+        </div>
+
+
+
+    </aside>
+
+
+</section>

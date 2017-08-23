@@ -1,0 +1,202 @@
+﻿.myNavBar {
+    height: 9%;
+    background-color: #FAFAFB;
+    border-right-color: #FAFAFB;
+    border-left-color: #FAFAFB;
+    border-top-color: darkorange;
+    border-bottom-color: #DBDBDB;
+    border-width: 2px;
+    border-bottom-width: 1px;
+}
+
+    .myNavBar #accountLi.dropdown-menu {
+        background-color: transparent;
+        box-shadow: 0 0;
+        border: none;
+        min-width: 44px;
+        top: -3px;
+        padding: 0;
+    }
+    
+    .navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:focus, .navbar-inverse .navbar-nav>.open>a:hover{
+        background-color: transparent;
+    }
+
+.NavBarItems {
+    color: #4e4d4d !important;
+    font-size: 14px;
+    cursor:pointer;
+}
+
+    .NavBarItems:hover {
+        color: #b3b3b3 !important;
+    }
+
+.popularTags {
+    background-color: #FAFAFB;
+}
+
+    .popularTags:hover {
+        background-color: #22d5f7;
+    }
+
+.Title {
+    color: #132b43;
+    margin-top: 2px !important;
+}
+
+.Description {
+    margin-left: 0px !important;
+    margin-top: 12px !important;
+}
+
+.Vote {
+    margin-top: 1px !important;
+}
+
+.Comment {
+    margin-top: 1px !important;
+}
+
+.View {
+    margin-top: 2px !important;
+}
+
+p {
+    color: #8194a4;
+}
+
+.center1 {
+    margin-left: 5px !important;
+}
+
+.center2 {
+    margin-left: 13px !important;
+}
+
+.center3 {
+    margin-left: 30px !important;
+}
+
+.Filter {
+    margin-left: -10px !important;
+    margin-top: 28px !important;
+}
+
+.Filter2 {
+    margin-left: -30px !important;
+    margin-top: 74px !important;
+}
+
+.Paging {
+    margin-left: 3px !important;
+    margin-top: -10px !important;
+}
+
+.Content {
+    margin-left: -50px !important;
+}
+
+.VoteMenu {
+    margin-top: 10px !important;
+}
+
+.TriangleUpSelected {
+    border-color: transparent transparent #0bcf08 transparent;
+}
+
+.TriangleUpNotSelected {
+    border-color: transparent transparent #87898c transparent;
+}
+
+.TriangleDownSelected {
+    border-color: #ff0000 transparent transparent transparent;
+}
+
+.TriangleDownNotSelected {
+    border-color: #87898c transparent transparent transparent;
+}
+
+.TriangleUp {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 10px 10px 10px;
+    cursor: pointer;
+}
+
+.TriangleDown {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 10px 0 10px;
+    cursor: pointer;
+}
+
+.QuestionVote {
+    margin-left: 4px !important;
+    margin-top: 10px !important;
+}
+
+hr {
+    margin-top: 0px !important;
+}
+
+.Name {
+    margin-top: 0px !important;
+}
+
+.When {
+    margin-top: 0px !important;
+}
+
+.Rep {
+    margin-top: 0px !important;
+}
+
+ul {
+    padding: 0;
+    margin: 0 0 10px 25px;
+}
+
+.rosetImg li {
+    color: rgb(129, 148, 164);
+    display: inline-block;
+    font-family: "Segoe UI", Helvetica, sans-serif;
+    font-size: 12px;
+    height: 60px;
+    line-height: 20px;
+    margin: 1px;
+    padding-bottom: 100px;
+    padding-right: 5px;
+    padding-top: 5px;
+    text-align: left;
+    text-size-adjust: 100%;
+    vertical-align: top;
+    width: 30%;
+    float: left;
+    word-wrap: break-word;
+}
+
+a {
+    cursor: auto;
+}
+
+    a img {
+        display: inline-block;
+    }
+
+.medal {
+    float: left;
+}
+
+.roseteList h3 {
+    padding-left: 10px;
+}
+
+.roseteList p {
+    padding-left: 10px;
+}
+
+.information {
+}

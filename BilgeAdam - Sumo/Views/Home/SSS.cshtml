@@ -1,0 +1,122 @@
+﻿
+@{
+    ViewBag.Title = "SSS";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-sm-4" style="margin-top:-55px !important; margin-left:15px !important;">
+    <h1>Sıkça Sorulan Sorular</h1>
+</div><br />
+
+<div class="col-md-12">
+    <div class="container">
+        <div class="panel-group" id="accordion" style="width:70%; ">
+            <div class="panel panel-default sss-question">
+                <div class="panel-heading">
+                    <h2 data-toggle="collapse" data-parent="#accordion" href="#collapse1" class="panel-title expand">
+                        <span class="right-arrow pull-right">+</span>
+                        <a href="#">Aliquam tristique, sem at finibus porta, ipsum enim convallis leo, a scelerisque ligula nisl vitae tellus. </a>
+                    </h2>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default sss-question">
+                <div class="panel-heading">
+                    <h2 data-toggle="collapse" data-parent="#accordion" href="#collapse2" class="panel-title expand">
+                        <span class="right-arrow pull-right">+</span>
+                        <a href="#">In rutrum pharetra ipsum eleifend lobortis.</a>
+                    </h2>
+                </div>
+                <div id="collapse2" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default sss-question">
+                <div class="panel-heading">
+                    <h2 data-toggle="collapse" data-parent="#accordion" href="#collapse3" class="panel-title expand">
+                        <span class="right-arrow pull-right">+</span>
+                        <a href="#">Morbi suscipit non elit vel tincidunt. Donec sagittis, metus nec bibendum tempus, massa risus molestie mi, congue tincidunt turpis mi id ex.</a>
+                    </h2>
+                </div>
+                <div id="collapse3" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default sss-question">
+                <div class="panel-heading">
+                    <h2 data-toggle="collapse" data-parent="#accordion" href="#collapse4" class="panel-title expand">
+                        <span class="right-arrow pull-right">+</span>
+                        <a href="#">Curabitur id eros neque. Vestibulum quis ultricies lacus.</a>
+                    </h2>
+                </div>
+                <div id="collapse4" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default sss-question">
+                <div class="panel-heading">
+                    <h2 data-toggle="collapse" data-parent="#accordion" href="#collapse5" class="panel-title expand">
+                        <span class="right-arrow pull-right">+</span>
+                        <a href="#">Sed ullamcorper varius lectus, vel aliquet massa suscipit sit amet. Sed ac urna vestibulum, laoreet tortor eu, tempor odio.</a>
+                    </h2>
+                </div>
+                <div id="collapse5" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default sss-question">
+                <div class="panel-heading">
+                    <h2 data-toggle="collapse" data-parent="#accordion" href="#collapse6" class="panel-title expand">
+                        <span class="right-arrow pull-right">+</span>
+                        <a href="#">Etiam quam magna, auctor sit amet ligula et, bibendum iaculis odio.</a>
+                    </h2>
+                </div>
+                <div id="collapse6" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // SSS sayfası js fonksiyonu **
+    $(function () {
+        $(".expand").on("click", function () {
+            // $(this).next().slideToggle(200);
+            $expand = $(this).find(">:first-child");
+
+            if ($expand.text() == "+") {
+                $expand.text("-");
+            } else {
+                $expand.text("+");
+            }
+        });
+    });
+</script>

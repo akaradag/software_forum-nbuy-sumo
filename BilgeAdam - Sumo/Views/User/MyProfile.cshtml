@@ -1,0 +1,491 @@
+﻿@using BilgeAdam___Sumo.DataAccess;
+@model User
+@{
+    ViewBag.Title = "Profilim";
+}
+
+<section>
+    @* Content Left Start *@
+    <aside class="col-lg-3 gray-background" id="profile-head">
+        <div class="text-center">
+            @{
+                string imgProfileSrc;
+                if (Model.Image != null)
+                {
+                    string base64Profile = Convert.ToBase64String(Model.Image);
+                    imgProfileSrc = string.Format("data:image/gif;base64,{0}", base64Profile);
+                }
+                else
+                {
+                    imgProfileSrc = "#";
+                }
+            }
+            <img src="@imgProfileSrc" alt="" class="profile-img" />
+        </div>
+        <div class="profile-details text-center">
+            <h2>
+                <label id="p_first_name">@Model.FirstName.ToUpper()</label>
+                <label id="p_last_name">@Model.LastName.ToUpper()</label>
+            </h2>
+            <div class="darkblue-line">
+            </div>
+            <label><a href="~/User/FollowList/@Model.Id">@TempData["FollowerCount"] Takipçi</a></label>
+            <label id="rep_point">@Model.RepPoint İtibar Puanı</label>
+            <label id="account_create_date">
+                Profil Oluşturulma Tarihi
+                <br />
+                @Model.AccountCreateDate.ToShortDateString()
+            </label>
+            <label id="role">@Model.Role.RoleName</label>
+        </div>
+    </aside>
+    @* Content left End *@
+
+    @* Content Right Start *@
+    <aside class="col-lg-9">
+        <h1 class="page-header">Profili Düzenle</h1>
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a data-toggle="tab" href="#personal-info">Kişisel Bilgilerim</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#password-op">Şifre İşlemleri</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#work-info">İş Bilgileri</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            @* Kişisel Bilgiler Start *@
+            <div id="personal-info" class="tab-pane fade in active">
+                <h3>Kişisel Bilgiler</h3>
+                <form action="~/User/MyProfile/" method="post">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <input type="hidden" id="profile-id" value="@Model.Id" />
+                                <div id="photo-upload">
+                                    <img src="#" alt="Resim yok" id="profile_image" />
+                                    <input type="file" name="Image" />
+                                    <div id="add-photo">
+                                        <i class="fa fa-plus"></i><span>Resim yüklemek için tıklayın</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="first-name">Ad</label>
+                                <input id="first-name" class="form-control" type="text" name="FirstName" value="@Model.FirstName" />
+                            </div>
+                            <div class="form-group">
+                                <label for="last-name">Soyad</label>
+                                <input id="last-name" class="form-control" type="text" name="LastName" value="@Model.LastName" />
+                            </div>
+                            <div class="form-group">
+                                <label for="mail">E-posta</label>
+                                <input id="mail" class="form-control" type="text" name="Mail" value="@Model.Mail" />
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Telefon</label>
+                                <input id="phone" class="form-control" type="text" name="Phone" value="@Model.Phone" />
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="country">Ülke</label>
+                                <input id="country" class="form-control" type="text" name="Country" value="@Model.Country" />
+                            </div>
+                            <div class="form-group">
+                                <label for="city">İl</label>
+                                <input id="city" class="form-control" type="text" name="City" value="@Model.City" />
+                            </div>
+                            <div class="form-group">
+                                <label for="region">İlçe</label>
+                                <input id="region" class="form-control" type="text" name="Region" value="@Model.Region" />
+                            </div>
+                            <div class="form-group">
+                                <label>Doğum Tarihi</label>
+                                <div id="birth-date" class="row">
+                                    <div class="col-lg-4">
+                                        <select id="birth-year" class="form-control" required onchange="DatePickerOp()">
+                                            <option value="0" disabled selected hidden>Yıl</option>
+                                            @for (int i = 1900; i <= DateTime.Today.Year; i++)
+                                            {
+                                                <option value="@i">@i</option>
+                                            }
+                                        </select>
+                                        <span>/</span>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <select id="birth-month" class="form-control" required onchange="DatePickerOp()">
+                                            <option value="0" disabled selected hidden>Ay</option>
+                                            @for (int i = 1; i < 13; i++)
+                                            {
+                                                <option value="@i">@i</option>
+                                            }
+                                        </select>
+                                        <span>/</span>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <select id="birth-day" class="form-control" required>
+                                            <option value="0" disabled selected hidden>Gün</option>
+                                            @for (int i = 1; i <= 31; i++)
+                                            {
+                                                <option value="@i">@i</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-group pull-right">
+                        <button type="reset" class="btn btn-danger">Temizle</button>
+                        <button type="button" class="btn btn-success" onclick="UpdateProfile()">Onayla</button>
+                    </div>
+                </form>
+            </div>
+            @* Kişisel Bilgiler End *@
+
+            @* Şifre İşlemleri Start *@
+            <div id="password-op" class="tab-pane fade">
+                <h3>Şifre Değiştirme</h3>
+                <div class="row">
+                    <form action="/" method="post">
+                        <div class="form-group col-lg-4">
+                            <label for="old-password">Eski Şifre</label>
+                            <input id="old-password" type="password" class="form-control" />
+                        </div>
+                        <div class="form-group col-lg-4">
+                            <label for="new-password">Yeni Şifre</label>
+                            <input id="new-password" type="password" class="form-control" />
+                        </div>
+                        <div class="form-group col-lg-4">
+                            <label for="repeat-password">Yeni Şifre Tekrar</label>
+                            <input id="repeat-password" type="password" class="form-control" />
+                        </div>
+                        <div class="btn-group pull-right">
+                            <button type="reset" class="btn btn-danger">Temizle</button>
+                            <button type="button" class="btn btn-success">Onayla</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            @* Şifre İşlemleri End *@
+
+            @* İş Bilgileri Start *@
+            <div id="work-info" class="tab-pane fade">
+                <h3>İş Bilgilerim</h3>
+                <form action="/" method="post">
+                    <div class="form-group">
+                        <label for="about">Hakkımda</label>
+                        <textarea id="about" name="About" class="form-control"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <label for="company">Çalıştığım Şirket</label>
+                            <input type="text" id="company" name="Company" class="form-control" />
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="work-title">Pozisyon</label>
+                            <input type="text" id="work-title" name="Title" class="form-control" />
+                        </div>
+                    </div>
+                    <div id="languages" class="form-group">
+                        <h4>Konuştuğum Diller</h4>
+                        <i class="fa fa-plus add-pointer pull-right" id="add-lang"></i>
+                        <hr />
+                        @* add-lang modal start *@
+                        <div class="modal fade" id="add-lang-modal" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Dil Ekleme</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label>Dil</label>
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Yetkinlik</label>
+                                            <select class="form-control">
+                                                <option value="1">Elementary</option>
+                                                <option value="2">Pre-Intermediate</option>
+                                                <option value="3">Intermediate</option>
+                                                <option value="4">Upper-Intermediate</option>
+                                                <option value="5">Advanced</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
+                                            <button type="button" class="btn btn-primary">Onayla</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @* add language modal end *@
+                    </div>
+                    <div id="experiences" class="form-group">
+                        <h4>Önceki Tecrübelerim</h4>
+                        <i class="fa fa-plus add-pointer pull-right" id="add-exp"></i>
+                        <hr />
+                        @* add exp modal start *@
+                        <div class="modal fade" id="add-exp-modal" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Tecrübe Ekleme</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    @* add exp modal-body start *@
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label>Ünvan</label>
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Şirket</label>
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                        <div id="exp-dates" class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Başlangıç</label>
+                                                    <div class="row">
+                                                        <div class="col-lg-5">
+                                                            <select id="exp-start-month" class="form-control" required>
+                                                                <option value="" disabled selected hidden>Ay</option>
+                                                                @for (int i = 1; i < 13; i++)
+                                                                {
+                                                                <option value="@i">@i</option>
+                                                                }
+                                                            </select>
+                                                            <span>/</span>
+                                                        </div>
+                                                        <div class="col-lg-7">
+                                                            <select id="exp-start-year" class="form-control" required>
+                                                                <option value="" disabled selected hidden>Yıl</option>
+                                                                @for (int i = 1900; i <= DateTime.Today.Year; i++)
+                                                                {
+                                                                <option value="@i">@i</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label>Bitiş</label>
+                                                    <div class="row">
+                                                        <div class="col-lg-5">
+                                                            <select id="exp-end-month" class="form-control" required>
+                                                                <option value="" disabled selected hidden>Ay</option>
+                                                                @for (int i = 1; i < 13; i++)
+                                                                {
+                                                                <option value="@i">@i</option>
+                                                                }
+                                                            </select>
+                                                            <span>/</span>
+                                                        </div>
+                                                        <div class="col-lg-7">
+                                                            <select id="exp-end-year" class="form-control" required>
+                                                                <option value="" disabled selected hidden>Yıl</option>
+                                                                @for (int i = 1900; i <= DateTime.Today.Year; i++)
+                                                                {
+                                                                <option value="@i">@i</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @* add exp modal-body end *@
+                                    <div class="modal-footer">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
+                                            <button type="button" class="btn btn-primary">Onayla</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @* add exp modal end *@
+                    </div>
+                    <div id="sites" class="form-group">
+                        <h4>Siteler</h4>
+                        <i class="fa fa-plus add-pointer pull-right" id="add-site"></i>
+                        <hr />
+                        @* add site Modal start*@
+
+                        <div id="add-site-modal" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Site Ekleme</h5>
+                                        <button type="button" class="close" data-dismiss="modal">
+                                            <span>&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label>Site URL</label>
+                                            <input type="text" class="form-control" name="Site" />
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
+                                            <button type="button" class="btn btn-primary">Onayla</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @* add site Modal end *@
+                    </div>
+                    <div class="btn-group">
+                        <button type="reset" class="btn btn-danger">Temizle</button>
+                        <button type="button" class="btn btn-success">Onayla</button>
+                    </div>
+                </form>
+            </div>
+            @* İş Bilgileri End *@
+        </div>
+
+    </aside>
+    @* Content Right End *@
+
+    @section myProfile_script{
+        <script src="~/assets/Bootstrap/js/jquery-3.2.1.js"></script>
+        <script>
+            $('#add-lang').click(function () {
+                $('#add-lang-modal').modal();
+            });
+            $('#add-exp').click(function () {
+                $('#add-exp-modal').modal();
+            });
+            $('#add-site').click(function () {
+                $('#add-site-modal').modal();
+            });
+
+
+            $(document).ready(function () {
+                @{
+                if (Model.BirthDate != null)
+                {
+
+                    <text>
+                        var day = @(((DateTime)Model.BirthDate).Day) ;
+                        var month = @(((DateTime)Model.BirthDate).Month);
+                        var year = @(((DateTime)Model.BirthDate).Year);
+
+
+                        $('#birth-day option[value='+day+']').attr('selected','selected');
+                        $('#birth-day option[value=0]').attr('selected','false');
+                        $('#birth-month option[value='+month+']').attr('selected','selected');
+                        $('#birth-month option[value=0]').attr('selected','false');
+                        $('#birth-year option[value='+year+']').attr('selected','selected');
+                        $('#birth-year option[value=0]').attr('selected','false');
+                    </text>
+
+                }
+                }
+            })
+
+            //DatePicker aydaki günler kontrolü başlangıç
+            function DatePickerOp() {
+                var day = $('#birth-day').val();
+                var month = $('#birth-month option:selected').val();
+                var year = $('#birth-year').val();
+
+                $('#birth-day').children().hide()
+
+                var dayCount;
+
+                if (month <= 7 && month>= 1) {
+                    if (month % 2 == 1) {
+                        dayCount = 31;
+                    }
+                    else if (month == 2 &&year % 4 == 0) {
+                        dayCount = 29;
+                    }
+                    else if (month == 2 && year% 4 != 0) {
+                        dayCount = 28;
+                    }
+                    else if (month % 2 == 0) {
+                        dayCount = 30;
+                    }
+                }
+                else {
+                    if (month % 2 == 1) {
+                        dayCount = 30;
+                    }
+                    else {
+                        dayCount = 31;
+                    }
+                }
+
+
+                for (var i = 1; i <= dayCount; i++) {
+                    $('#birth-day option[value='+i+']').show();
+                }
+            }
+            //DatePicker aydaki günler kontrolü bitiş
+
+
+            function UpdateProfile() {
+                debugger;
+                var day = $('#birth-day').val();
+                var month = $('#birth-month').val();
+                var year = $('#birth-year').val();
+
+                var birthDate = day+'/'+month+'/'+year;
+
+                var user = {
+                    Id: $('#profile-id').val(),
+                    FirstName: $("#first-name").val(),
+                    LastName: $("#last-name").val(),
+                    Mail: $("#mail").val(),
+                    Phone: $("#phone").val(),
+                    Country: $("#country").val(),
+                    City: $("#city").val(),
+                    Region: $("#region").val(),
+                    BirthDate: birthDate
+                }
+
+                $.ajax({
+                    url: "/User/UpdateProfile",
+                    type: "post",
+                    data: JSON.stringify(user),
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        alert(result.message + "Güncelleme Başarılı");
+                    },
+                    error: function () {
+                        alert("Hata! İşlem Gerçekleşmedi.");
+                    }
+                })
+            }
+
+
+        </script>
+    }
+
+
+</section>

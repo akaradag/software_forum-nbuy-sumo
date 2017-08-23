@@ -1,0 +1,121 @@
+﻿@using BilgeAdam___Sumo.DataAccess;
+@model List<User>
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<body id="listContainer">
+    <div class="col-sm-4" style="margin-top:-55px !important; margin-left:15px !important;">
+        <h3>Kullanıcılar</h3>
+    </div><br />
+    <div class="col-sm-8 Filter" style="margin-left:65px !important;margin-top:-28px !important">
+        <li class="dropdown">
+            <a id="LevelDropDown" class="dropdown-toggle pull-right" data-toggle="dropdown" href="#">
+                Zorluk Seviyesi
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu pull-right" style="margin-top:20px !important">
+                <li><a class="FilterOption" href="#" data-code="6">Soru</a></li>
+                <li><a class="FilterOption" href="#" data-code="5">Takipçi</a></li>
+            </ul>
+        </li>
+        <span class="pull-right">&nbsp;|&nbsp;</span>
+        <a href="#" class="FilterOption pull-right" data-code="4">İlk 10</a><span class="pull-right">&nbsp;|&nbsp;</span>
+        <a href="#" class="FilterOption pull-right" data-code="3">En eski</a><span class="pull-right">&nbsp;|&nbsp;</span>
+        <a href="#" class="FilterOption pull-right" data-code="2">Rep Point</a><span class="pull-right">&nbsp;|&nbsp;</span>
+        <a href="#" class="FilterOption pull-right" data-code="1">En yeni</a><span class="pull-right">&nbsp;|&nbsp;</span>
+        <a href="#" class="FilterOption pull-right" data-code="0" id="clearLevel" hidden="hidden">Temizle</a>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
+            <ul>
+                @foreach (User item in Model)
+                {
+                    <li class="btn btn-info col-sm-3" style="text-align:left;background-color:#c3d4e5;line-height:25px;border:0;margin:10px;">
+                        <div>
+                            <a href="~/User/ShowProfile/@item.Id" style="text-decoration:none;font-size:16px;display:block;color:#000;"><b>@item.GetFullName</b></a>
+                            <span style="font-size:14px"><img src="~/assets/Site/img/user-follow-icon.png" /> @item.UserFollows.Count  </span>   <span style="font-size:14px"> &bull; <img src="@Url.Content("~/assets/Site/img/user-reppoint-icon.png")" /> @item.RepPoint </span>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="col-md-2">
+
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-md-8">
+            @for (int i = (int)TempData["Count"]; i > 0; i--)
+            {
+                if (i == (int)TempData["PageNumber"])
+                {
+                    <button type="button" style="background-color:#64bcfc" class="Paging btn btn-default pull-right" data-filterno="@TempData["Filter"]" value="@(i)">@(i)</button>
+                }
+                else
+                {
+                    <button type="button" class="Paging btn btn-default pull-right" data-filterno="@TempData["Filter"]" value="@(i)">@(i)</button>
+                }
+
+            }
+        </div>
+    </div>
+</body>
+@section script{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var options = $('.FilterOption');
+            options.on("click", function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '/User/List?FilterId=' + $(this).data('code') + '&PageNumber=1',
+                    method: 'post',
+                    success: function (view) {
+                        history.pushState('', '', this.url.replace(/[&?]X-Requested-With=XMLHttpRequest/i, ""));
+                        debugger;
+                        $('#listContainer').html(view);
+                        if (code != 0) {
+                            $('#clearLevel').removeAttr("hidden");
+                        }
+                        else {
+                            $('#clearLevel').attr("hidden");
+                        }
+                        $('#LevelDropDown').dropdown();
+                        var pages = $('.Paging');
+                        pages.on("click", fc);
+                    }
+                });
+            });
+            var pages = $('.Paging');
+            pages.on("click", fc);
+            $('#LevelDropDown').dropdown();
+
+            function fc(e) {
+                e.preventDefault();
+                var number = $(this).val();
+                $.ajax({
+                    url: '/User/List?FilterId=' + $(this).data('filterno') + '&PageNumber=' + number,
+                    method: 'post',
+                    success: function (view) {
+                        history.pushState('', '', this.url.replace(/[&?]X-Requested-With=XMLHttpRequest/i, ""));
+                        debugger;
+                        $('#listContainer').html(view);
+                        if ($(this).data('filter-no') != 0) {
+                            $('#clearLevel').removeAttr('hidden');
+                        }
+                        else {
+                            $('#clearLevel').attr('hidden');
+                        }
+                        $('#LevelDropDown').dropdown();
+                        var pages = $('.Paging');
+                        pages.on("click", fc);
+                        $('#listContainer').animate({ scrollTop: 0 }, 300);
+                    }
+                });
+            }
+        });
+    </script>
+}

@@ -1,0 +1,107 @@
+﻿@using BilgeAdam___Sumo.DataAccess
+@model BilgeAdam___Sumo.Models.UserInfoVM
+@{
+    ViewBag.Title = "FollowList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        overflow: scroll;
+        padding-top: 20px;
+    }
+
+    .glyphicon-lg {
+        font-size: 4em;
+    }
+
+    .info-block {
+        border-right: 5px solid #E6E6E6;
+        margin-bottom: 25px;
+    }
+
+        .info-block .square-box {
+            width: 100px;
+            min-height: 110px;
+            margin-right: 22px;
+            text-align: center !important;
+            background-color: #676767;
+            padding: 20px 0;
+        }
+
+        .info-block.block-info {
+            border-color: #20819e;
+        }
+
+            .info-block.block-info .square-box {
+                background-color: #20819e;
+                color: #FFF;
+            }
+
+    #input-search {
+        margin-bottom: 10px;
+    }
+
+    .media-body {
+        padding-left: 5px;
+    }
+</style>
+
+<div class="col-sm-4" style="margin-top:-35px !important; margin-left:15px !important;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="well well-sm">
+                    <div class="media">
+                        <a class="thumbnail pull-left" style="padding-right:2px;" href="~/User/ShowProfile/30">
+                            <img class="media-object" src="~/assets/Site/img/user-group-man-woman.png">
+                        </a>
+                        <div class="media-body">
+                            <a href="~/User/ShowProfile/@Model.Id" style="text-decoration:none;color:black;"><h4 class="media-heading"> @Model.FirstName @Model.LastName</h4></a>
+                                    <p> <span class="label label-info">@Model.Questions.Count Soru</span> <span class="label label-success">@Model.Answers.Count Cevap</span> <span class="label label-warning">@Model.Followers.Count Takipçi</span></p>
+                                    <p>
+                                        <a href="#" class="btn btn-xs btn-default"> <span class="glyphicon glyphicon-comment"></span> Mesaj Gönder</a>
+                                        <a href="#" class="btn btn-xs btn-default"> <span class="glyphicon glyphicon-floppy-open"></span> Takip Et</a>
+                                        <a href="#" class="btn btn-xs btn-default"> <span class="glyphicon glyphicon-ban-circle"></span> Takibi Bırak</a>
+                                    </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="row" style="margin-top:105px !important; margin-left:15px !important;">
+
+    <div class="container">
+        <div class="row">
+            <h4 style="padding-left:15px;">Filtrelenmiş Liste</h4>
+            <div class="col-lg-10">
+                <input type="search" class="form-control" id="input-search" placeholder="Listede Ara...">
+            </div>
+            <div class="searchable-container">
+                @foreach (User item in Model.Followers)
+                {
+                    <div class="items col-xs-12 col-sm-5 col-md-5 col-lg-5 clearfix">
+                        <div class="info-block block-info clearfix">
+                            <div class="square-box pull-left">
+                                <span class="glyphicon glyphicon-user glyphicon-lg"></span>
+                            </div>
+                            <a href="~/User/ShowProfile/@item.Id" style="text-decoration:none;color:black;"><h4>@item.GetFullName</h4></a><span class="pull-right"><button class="btn btn-primary" style="margin-right:5px;">Mesaj Gönder</button></span>
+                            <h5>@item.Company</h5>
+                            <p>@item.About</p>
+                            <span>@item.Mail</span>
+                        </div>
+                    </div>
+                }                
+                
+            </div>
+        </div>
+    </div>
+
+</div>
+
+

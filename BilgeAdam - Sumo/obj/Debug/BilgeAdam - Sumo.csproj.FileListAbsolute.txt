@@ -1,0 +1,43 @@
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\ApplicationInsights.config
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\BilgeAdam - Sumo.dll.config
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\BilgeAdam - Sumo.dll
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\BilgeAdam - Sumo.pdb
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\EntityFramework.dll
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\EntityFramework.SqlServer.dll
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\Microsoft.AI.Agent.Intercept.dll
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\Microsoft.AI.DependencyCollector.dll
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\Microsoft.AI.PerfCounterCollector.dll
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\Microsoft.AI.ServerTelemetryChannel.dll
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\Microsoft.AI.Web.dll
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\Microsoft.AI.WindowsServer.dll
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\Microsoft.ApplicationInsights.dll
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\Microsoft.Web.Infrastructure.dll
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\System.Web.Helpers.dll
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\System.Web.Mvc.dll
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\System.Web.Razor.dll
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\System.Web.Webpages.Deployment.dll
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\System.Web.Webpages.dll
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\System.Web.Webpages.Razor.dll
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\EntityFramework.xml
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\EntityFramework.SqlServer.xml
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\Microsoft.AI.DependencyCollector.xml
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\Microsoft.AI.ServerTelemetryChannel.xml
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\Microsoft.AI.Web.xml
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\Microsoft.AI.WindowsServer.xml
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\Microsoft.ApplicationInsights.xml
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\System.Web.Razor.xml
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\System.Web.Webpages.xml
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\System.Web.Webpages.Deployment.xml
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\System.Web.Webpages.Razor.xml
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\System.Web.Helpers.xml
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\System.Web.Mvc.xml
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\obj\Debug\BilgeAdam - Sumo.csprojResolveAssemblyReference.cache
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\obj\Debug\BilgeAdam___Sumo.Migrations.First.resources
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\obj\Debug\BilgeAdam - Sumo.csproj.GenerateResource.Cache
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\obj\Debug\BilgeAdam - Sumo.dll
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\obj\Debug\BilgeAdam - Sumo.pdb
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\obj\Debug\BilgeAdam___Sumo.Migrations.second.resources
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\obj\Debug\BilgeAdam___Sumo.Migrations.change.resources
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\obj\Debug\BilgeAdam___Sumo.Migrations.change2.resources
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\Newtonsoft.Json.dll
+D:\SOF_BilgeAdamProject\Sumo\BilgeAdam - Sumo\BilgeAdam - Sumo\bin\Newtonsoft.Json.xml

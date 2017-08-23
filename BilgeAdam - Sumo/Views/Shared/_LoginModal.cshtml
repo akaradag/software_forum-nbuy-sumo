@@ -1,0 +1,29 @@
+﻿<div class="modal fade" id="modal-login" tabindex="-1" role="dialog" aria-labelledby="modal-register-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">Kapat</span>
+                </button>
+                <h3 class="modal-title" id="modal-register-label">Üye Girişi</h3>
+                <p>Üye Giriş işlemi için tüm alanları doldurmalısınız!</p>
+            </div>
+
+            <div class="modal-body">
+                <form id="form1" role="form" action="" method="post" class="login-form">
+                    <div class="form-group">
+                        <label class="lblModal sr-only" for="form-email">Email</label>
+                        <input type="text" name="form-email" placeholder="Email" class="txtModal form-email form-control" id="form-email-lg">
+                    </div>
+                    <div class="form-group">
+                        <label class="lblModal sr-only" for="form-email">Parola</label>
+                        <input type="password" name="form-email" placeholder="Parola" class="txtModal form-email form-control" id="form-password-lg">
+                    </div>
+                    <button type="submit" class="btnModal">Giriş Yap</button>
+                </form>
+                <div id="ErrorDiv-lg" class="alert alert-danger form-group" hidden="hidden" style="margin-top:10px !important">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

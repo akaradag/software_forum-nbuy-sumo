@@ -1,0 +1,559 @@
+﻿@using BilgeAdam___Sumo.Tools;
+@using BilgeAdam___Sumo.DataAccess;
+@model Question
+@{
+    ViewBag.Title = "Index";
+}
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body id="ListContainer">
+    @*<Body>*@
+    <div class="container" style="margin-left:-5px">
+        @*<Body nin sol tarafı>*@
+        <div class="col-sm-9">
+            @*<Takip Et Butonu>*@
+            <div>
+                <button id="followButton" type="button" style="float:left;margin-top:-40px !important;width:100px;height:30px" class="btn btn-info"><i class="fa fa-reply"> &nbsp;Takip Et</i></button>
+            </div>
+            @*</Takip Et Butonu>*@
+
+            @*<Soruyu Soranın Bilgileri>*@
+            <div class="row">
+                <div class="col-sm-12 " style="margin-top:-20px !important">
+                    <h3 class="MainTitle">@Model.Title</h3>
+                    <h5 class="Description">
+                        <a href="#">@Model.User.FirstName @Model.User.LastName</a> tarafından sorulan soru - @(Tool.TimeToString(Model.CreateTime))
+                        - Etiketler : @{
+                            int k = 0;
+                            foreach (var item4 in Model.Tags)
+                            {
+                                <a href="~/Tag/Index?tagId=@item4.Id&filterId=0&pageNumber=1"> @item4.TagName </a>
+                                if (k != Model.Tags.Count - 1)
+                                {
+                                    <span>
+                                        ,
+                                    </span>
+                                }
+                                k++;
+                            }
+                        }
+                    </h5>
+                    <hr class="pull-left" style="width:800px !important;margin-top:-5px !important" />
+                </div>
+            </div>
+            @*</Soruyu Soranın Bilgileri>*@
+
+            @*<Sorunun Oy ve Content Kısmı>*@
+            <div class="row">
+                <div class="col-sm-12" style="float:left">
+                    <div class="col-sm-1 VoteMenu">
+                        <img style="width:50px;height:50px;margin-left:-14px;margin-top:-5px" src="~/assets/Site/img/user-default.png" />
+                        @{
+                            bool flagQU = false;
+                            if (TempData["UserId"] != null)
+                            {
+                                foreach (QuestionVote item in Model.QuestionVotes)
+                                {
+                                    if (item.UserId == (int)TempData["UserId"])
+                                    {
+                                        if (item.Vote == true)
+                                        {
+                                            <div href="#" class="TriangleUp TriangleUpSelected" style="margin-top:15px" data-type="Question" data-id="@Model.UserId"></div>
+                                        }
+                                        else
+                                        {
+                                            <div href="#" class="TriangleUp TriangleUpNotSelected" style="margin-top:15px" data-type="Question" data-id="@Model.UserId"></div>
+                                        }
+                                        flagQU = true;
+                                        break;
+                                    }
+                                }
+                                if (flagQU == false)
+                                {
+                                    <div href="#" class="TriangleUp TriangleUpNotSelected" style="margin-top:15px" data-type="Question" data-id="@Model.UserId"></div>
+                                }
+                                TempData.Keep("UserId");
+                            }
+                            else
+                            {
+                                <div href="#" class="TriangleUp TriangleUpNotSelected" style="margin-top:15px" data-type="Question" data-id="@Model.UserId"></div>
+                            }
+                        }
+                        <h3 id="VoteForQ" class="QuestionVote">
+                            @{
+                                int count2 = 0;
+                                foreach (QuestionVote item in Model.QuestionVotes)
+                                {
+                                    count2 += item.Vote == true ? 1 : -1;
+                                }
+                                <span>@count2</span>
+                            }
+                        </h3>
+                        @{
+                            bool flagQD = false;
+                            if (TempData["UserId"] != null)
+                            {
+                                foreach (QuestionVote item in Model.QuestionVotes)
+                                {
+                                    if (item.UserId == (int)TempData["UserId"])
+                                    {
+                                        if (item.Vote == false)
+                                        {
+                                            <div href="#" class="TriangleDown TriangleDownSelected" data-type="Question" data-id="@Model.UserId"></div>
+                                        }
+                                        else
+                                        {
+                                            <div href="#" class="TriangleDown TriangleDownNotSelected" data-type="Question" data-id="@Model.UserId"></div>
+                                        }
+                                        flagQD = true;
+                                        break;
+                                    }
+                                }
+                                if (flagQD == false)
+                                {
+                                    <div href="#" class="TriangleDown TriangleDownNotSelected" data-type="Question" data-id="@Model.UserId"></div>
+                                }
+                                TempData.Keep("UserId");
+                            }
+                            else
+                            {
+                                <div href="#" class="TriangleDown TriangleDownNotSelected" data-type="Question" data-id="@Model.UserId"></div>
+                            }
+                        }
+                       
+                    </div>
+                    <div class="col-sm-11 Content" style="margin-left:-20px !important">
+                        <h4>@Model.Content</h4>
+                        <a href="#" style="float:left">Cevapla</a>
+                    </div>
+                </div>
+            </div>
+            @*</Sorunun Oy ve Content Kısmı>*@
+
+            @*<Cevapların Listelenmesi>*@
+            <h3 class="MainTitle">@Model.Answers.Count Cevap</h3>
+            <hr class="pull-left" style="width:800px !important;margin-top:-5px !important" />
+            @{ 
+                            int a = -1;
+                            foreach (Answer item2 in (List<Answer>)TempData["Answers"])
+                            {
+
+                    a++;
+                <div class="row">
+                    
+                    <div class="col-sm-12" style="float:left">
+                        <div class="col-sm-1 VoteMenu">
+                            <img style="width:50px;height:50px;margin-left:-14px;margin-top:-5px" src="~/assets/Site/img/user-default.png" />
+                            @{
+                                bool flagAU = false;
+                                if (TempData["UserId"] != null)
+                                {
+                                    foreach (AnswerVote item in item2.AnswerVotes)
+                                    {
+                                        if (item.UserId == (int)TempData["UserId"])
+                                        {
+                                            if (item.Vote == true)
+                                            {
+                                                <div href="#" class="TriangleUp TriangleUpSelected" style="margin-top:15px" data-type="Answer" data-id="@item2.UserId" data-answerID="@item2.Id"></div>
+                                            }
+                                            else
+                                            {
+                                                <div href="#" class="TriangleUp TriangleUpNotSelected" style="margin-top:15px" data-type="Answer" data-id="@item2.UserId" data-answerID="@item2.Id"></div>
+                                            }
+                flagAU = true;
+                                            break;
+                                        }
+                                    }
+                                    if (flagAU == false)
+                                    {
+                                        <div href="#" class="TriangleUp TriangleUpNotSelected" style="margin-top:15px" data-type="Answer" data-id="@item2.UserId" data-answerID="@item2.Id"></div>
+                                    }
+                                    TempData.Keep("UserId");
+                                }
+                                else
+                                {
+                                    <div href="#" class="TriangleUp TriangleUpNotSelected" style="margin-top:15px" data-type="Answer" data-id="@item2.UserId" data-answerID="@item2.Id"></div>
+                                }
+
+                            }
+                            <h3 class="QuestionVote VoteForA" data-answerID="@item2.Id">
+                                @{
+                                    int count = 0;
+                                    foreach (AnswerVote item in item2.AnswerVotes)
+                                    {
+                                        count += item.Vote == true ? 1 : -1;
+                                    }
+                                    <span>@count</span>
+                                }
+                            </h3>
+                            @{
+                                bool flagAD = false;
+                                if (TempData["UserId"] != null)
+                                {
+                                    foreach (AnswerVote item in item2.AnswerVotes)
+                                    {
+                                        if (item.UserId == (int)TempData["UserId"])
+                                        {
+                                            if (item.Vote == false)
+                                            {
+                                                <div href="#" class="TriangleDown TriangleDownSelected" data-type="Answer" data-id="@item2.UserId" data-answerID="@item2.Id"></div>
+                                            }
+                                            else
+                                            {
+                                                <div href="#" class="TriangleDown TriangleDownNotSelected" data-type="Answer" data-id="@item2.UserId" data-answerID="@item2.Id"></div>
+                                            }
+                                            flagAD = true;
+                                            break;
+                                        }
+                                    }
+                                    if (flagAD == false)
+                                    {
+                                        <div href="#" class="TriangleDown TriangleDownNotSelected" data-type="Answer" data-id="@item2.UserId" data-answerID="@item2.Id"></div>
+                                    }
+                                    TempData.Keep("UserId");
+                                }
+                                else
+                                {
+                                    <div href="#" class="TriangleDown TriangleDownNotSelected" data-type="Answer" data-id="@item2.UserId" data-answerID="@item2.Id"></div>
+                                }
+                            }
+                            <div class="tick" data-answerID="@item2.Id"  style="display:none"><i class="fa fa-check" aria-hidden="true" style="font-size:35px;color:green"></i></div>
+
+                        </div>
+                        <div class="col-sm-11 Content" style="margin-left:-20px !important">
+                            <h5>
+                                <a href="#" style="font-size:15px"> @item2.User.FirstName @item2.User.LastName</a>
+                                tarafından verilen cevap - @(Tool.TimeToString(item2.CreateTime))
+                            </h5>
+                            <h4>@item2.Content</h4>
+                            
+                            <a href="#" style="float:left">Alıntı Yap</a>
+                            <input id="accept" type="button" data-answerID="@item2.Id" data-id="@a" class="btn btn-success pull-right accept" style="display:none" value="Onayla" />
+                        </div>
+                    </div>
+
+                </div>
+                <br />
+                <hr class="pull-left" style="width:800px !important;margin-top:-5px !important" />
+
+                                }}
+            @*</Cevapların Listelenmesi>*@
+
+            @*<Sayfalama Butonları>*@
+            <div class="col-sm-12 pull-left" style="margin-left:-30px !important">
+                @for (int i = (int)TempData["Count"]; i > 0; i--)
+            {
+                if (i == (int)TempData["PageNumber"])
+                {
+                        <button type="button" style="background-color:#64bcfc" class="Paging btn btn-default pull-right" value="@(i)">@(i)</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="Paging btn btn-default pull-right" value="@(i)">@(i)</button>
+                    }
+
+                }
+            </div>
+            @*</Sayfalama Butonları>*@
+
+            @*<Cevap Ver Bölümü>*@
+            <div class="col-sm-12">
+                <div class="col-sm-4"><img style="width:50px;height:50px;margin-left:-28px;margin-top:-5px" src="~/assets/Site/img/user-default.png" /></div>
+                <div class="col-sm-8" style="margin-left:-230px !important">
+                    <textarea id="myAnswer" class="form-control" style="resize:none; height:150px;width:143%" placeholder="Cevapla"></textarea>
+                    <button id="answerButton" type="button" style="margin-left:615px !important;margin-top:10px; width:100px;height:35px" class="btn btn-success"><i class="fa fa-check-square-o" aria-hidden="true"> &nbsp;Cevapla</i></button>
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger col-sm-12" style="margin-top:-50px !important;width:610px !important">@TempData["ErrorMessage"]</div>
+                    }
+                </div>
+            </div>
+            @*</Cevap Ver Bölümü>*@
+        </div>
+        @*</Body nin sol tarafı>*@
+
+        @*<Body nin sağ tarafı>*@
+        <div class="col-sm-3">
+            <div class="row" style="margin-left:-20px;margin-top:0px;width:90% !important">
+                <div class="row" style="width:100% !important">
+                    <h2 style="float:left;margin-left:10px"> @Model.QuestionFollows.Count</h2>
+                    <h5 style="float:left;margin-top:35px">&nbsp; Takipçi &nbsp; &nbsp;</h5>
+                    <h2 style="float:left"> @Model.Answers.Count</h2>
+                    <h5 style="float:left;margin-top:35px">&nbsp; Adet Cevap </h5>
+                </div>
+                <br />
+
+                <div class="row" style="width:100% !important">
+                    <h4 style="margin-left:15px">Kullanıcın Diğer Soruları</h4>
+                    <hr />
+                    @{
+                        int counter = 0;
+                        foreach (Question item in (List<Question>)TempData["OtherQuestions"])
+                        {
+                            counter++;
+                            <p class="popularTags" style="color:#cd7f32;font-size:16px"><a href="~/Question/Index?questionId=@item.Id" style="color:#4e4d4d;font-size:14px">@item.Title</a></p>
+                            if (counter == 10)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        @*</Body nin sağ tarafı>*@
+    </div>
+    <br />
+    <br />
+    @*</Body>*@
+</body>
+
+@section script{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var ansButton = $('#answerButton');
+            var control = "false";
+            ansButton.on("click", function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '@Url.Action("SaveAnswer", "Question")',
+                    method: 'post',
+                    data: {"questionId":@Model.Id,"content":$('#myAnswer').val(),"userId":30,"pageNumber":@((int)TempData["PageNumber"])},
+                    success: function (view) {
+                        $('#ListContainer').html(view);
+                        control = "true";
+                        var pages = $('.Paging');
+                        pages.on("click", fc);
+                    }
+                });
+            });
+            var pages = $('.Paging');
+            pages.on("click", fc);
+
+
+            function fc(e) {
+                e.preventDefault();
+                var number = $(this).val();
+                $.ajax({
+                    url: '/Question/Index?questionId=' + @Model.Id + '&pageNumber=' + number,
+                    method: 'post',
+                    success: function (partialView) {
+                        history.pushState('', '', this.url.replace(/[&?]X-Requested-With=XMLHttpRequest/i, ""));
+                        $('#ListContainer').html(partialView);
+                        var pages = $('.Paging');
+                        pages.on("click", fc);
+                        if (control != "true") {
+                            $('#ListContainer').animate({ scrollTop: 0 }, 100);
+                        }
+                    }
+                });
+            }
+            @if (TempData["IsLogged"] != null)
+            {
+            <text>
+            $('.TriangleUp').on('click',function (e) {
+                e.preventDefault();
+                var that = $(this);
+                var id= $(that).attr("data-id");
+                var userid = @(TempData["UserId"]);
+                if (id != userid && $(that).css("border-color") != "rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgb(11, 207, 8)") {
+                    $(that).css("border-color","transparent transparent #0bcf08 transparent");
+                    for (var i = 0; i < $('.TriangleDown').length; i++) {
+                        var element = $('.TriangleDown')[i];
+                        if ($(element).attr("data-answerID") == $(that).attr("data-answerID")) {
+                            $(element).css("border-color","#87898c transparent transparent transparent");
+                            break;
+                        }
+                    }
+                    if ($(that).data("type") == "Question") {
+                        $.ajax({
+                            url: '/Question/SaveQuestionVote',
+                            method: 'post',
+                            data: {"questionId":@Model.Id,"userId":userid,"vote":true},
+                            success:function (jsondata) {
+                                $('#VoteForQ').text(jsondata);
+                            }
+                        });
+                    }
+                    else if ($(that).data("type") == "Answer") {
+                        $.ajax({
+                            url: '/Question/SaveAnswerVote',
+                            method: 'post',
+                            data: {"answerId": $(that).attr("data-answerID"),"userId":userid,"vote":true},
+                            success:function (jsondata) {
+                                for (var i = 0; i < $('.VoteForA').length; i++) {
+                                    var element = $('.VoteForA')[i];
+                                    if ($(element).attr("data-answerID") == $(that).attr("data-answerID")) {
+                                        $(element).text(jsondata);
+                                        break;
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+            $('.TriangleDown').on('click',function (e) {
+                e.preventDefault();
+                var that = $(this);
+                var id= $(that).attr("data-id");
+                var userid = @(TempData["UserId"]);
+                if (id != userid && $(that).css("border-color") != "rgb(255, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0)") {
+                    $(that).css("border-color","#ff0000 transparent transparent transparent");
+                    for (var i = 0; i < $('.TriangleUp').length; i++) {
+                        var element = $('.TriangleUp')[i];
+                        if ($(element).attr("data-answerID") == $(that).attr("data-answerID")) {
+                            $(element).css("border-color","transparent transparent #87898c transparent");
+                            break;
+                        }
+                    }
+                    if ($(that).data("type") == "Question") {
+                        $.ajax({
+                            url: '/Question/SaveQuestionVote',
+                            method: 'post',
+                            data: {"questionId":@Model.Id,"userId":userid,"vote":false},
+                            success:function (jsondata) {
+                                $('#VoteForQ').text(jsondata);
+                            }
+                        });
+                    }
+                    else if ($(that).data("type") == "Answer") {
+                        $.ajax({
+                            url: '/Question/SaveAnswerVote',
+                            method: 'post',
+                            data: {"answerId": $(that).attr("data-answerID"),"userId":userid,"vote":false},
+                            success:function (jsondata) {
+                                for (var i = 0; i < $('.VoteForA').length; i++) {
+                                    var element = $('.VoteForA')[i];
+                                    if ($(element).attr("data-answerID") == $(that).attr("data-answerID")) {
+                                        $(element).text(jsondata);
+                                        break;
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+
+            </text>
+                TempData.Keep("IsLogged");
+                TempData.Keep("UserId");
+            }
+            else
+            {
+             <text>
+            $('.TriangleUp').attr("data-modal-id","modal-register");
+            $('.TriangleUp').addClass("launch-modalRegister");
+            $('.TriangleDown').attr("data-modal-id","modal-register");
+            $('.TriangleDown').addClass("launch-modalRegister");
+            $('#answerButton').attr("data-modal-id","modal-register");
+            $('#answerButton').addClass("launch-modalRegister");
+            </text>
+            }
+        });
+        //Kullanıcı kendi sorularına girdiği zaman cevaplarda onayla butonlarının  aktif edilmesi
+
+        $(document).ready(GetAll);
+        $(document).ready(function () {
+            var btnList=document.querySelectorAll(".accept");
+            var id=@Model.UserId;
+            if ((id==@TempData["UserId"])) {
+                for (var i = 0; i < btnList.length; i++) {
+                    $(btnList[i]).show();
+                }
+            }
+
+
+
+
+        });
+
+
+
+
+        function GetAll() {
+
+            btnList = document.querySelectorAll(".accept");
+            tickList=document.querySelectorAll(".tick");
+            btnCounter=0;
+
+            debugger;
+
+            @foreach (Answer item in (List<Answer>) TempData["Answers"])
+            {
+                if (item.Accepted==true) {
+                    <text>
+            btnList[btnCounter].id="accept";
+            btnList[btnCounter].value="Onayı Kaldır";
+            btnList[btnCounter].className="btn btn-danger pull-right accept";
+            $(tickList[btnCounter]).show();
+            btnCounter++;
+            </text>
+
+                }
+                else
+                {
+                    <text>
+            btnList[btnCounter].id="accept";
+            btnList[btnCounter].value="Onayla";
+            btnList[btnCounter].className="btn btn-success pull-right accept";
+           $(tickList[btnCounter]).hide();
+            btnCounter++;
+            </text>
+                }
+
+
+
+            }
+
+        };
+        $(".accept").click(function (e) {
+            debugger;
+            var that=$(this);
+           btnCount=$(this).attr("data-id");
+            tickList=document.querySelectorAll(".tick");
+            $.ajax({
+                url:"/Question/Accepted",
+                method:"post",
+                data:{
+                    answerId:$(this).attr("data-answerID"),
+                },
+
+                datatype:"json",
+                success:function (result) {
+
+                    debugger;
+                    var btntext= that.val();
+                    if (btntext=="Onayla") {
+                        that.val("Onayı Kaldır");
+                        that.attr("class","btn btn-danger accept pull-right");
+                        $(tickList[btnCount]).show();
+
+                    }
+                    else {
+                        that.val("Onayla");
+                        that.attr("class","btn btn-success accept pull-right");
+                        $(tickList[btnCount]).hide();
+                    }
+                  
+
+
+                },
+                error:function (hata) {
+                    alert("hata");
+                    console.log(hata);
+                }
+
+
+
+            })
+        });
+
+    </script>
+
+
+}

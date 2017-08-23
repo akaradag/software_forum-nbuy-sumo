@@ -1,0 +1,68 @@
+﻿@using BilgeAdam___Sumo.DataAccess;
+@model Question
+@{
+    ViewBag.Title = "Create";
+}
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AskView</title>
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body id="ListContainer">
+    <div class="container" style="margin-left:10px !important">
+        <div class="row">
+            <div class="col-md-8 col-xs-12" style="margin-top:-40px;width:71% !important">
+                <form action="@Url.Action("AskCreate", "Ask")">
+                    <div class="form-group">
+                        <label for="title">Başlık</label>
+                        <input id="txtTitle" style="border-radius: inherit;" type="text" name="title" class="form-control" placeholder="Başlık (Başlığınız sorunuzun özeti niteliğinde olmalı)" value="@Model.Title" />
+                        <p style="color:red">@Html.ValidationMessageFor(q => q.Title)</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">İçerik</label>
+                        <br />
+                        @{string ipucu = "Detay (İpucu: Başka bir kullanıcıyı bunun hakkında @@ KullanıcıAdı yazarak bilgilendirebilirsin)"; }
+                        <textarea id="txtContent" name="content" style="border-radius:inherit;resize:none;height:150px" class="form-control" placeholder="@ipucu">@Model.Content</textarea>
+                        <p style="color:red">@Html.ValidationMessageFor(q => q.Content)</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Etiketler</label>
+                        <input id="txtTags" style="border-radius: inherit;" type="text" class="form-control" name="tags" placeholder="Etiketler (örn: c#, c++, java), En fazla 5 etiket" />
+                    </div>
+                    <div class="form-group pull-right">
+                        <a href="~/Home/Index" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> &nbsp;İptal Et</a>
+                        <button id="questionButton" class="btn btn-primary" type="button"><i class="fa fa-check" aria-hidden="true"></i> &nbsp;Soruyu Gönder</button>
+                    </div>
+                </form>
+                @if (TempData["CreateErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger" style="width:70%">
+                        @TempData["CreateErrorMessage"]
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</body>
+
+@section script{
+    <script>
+        $(document).ready(function () {
+            var questionButton = $('#questionButton');
+            questionButton.on("click", function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '@Url.Action("SaveQuestion","Question")',
+                    method: 'post',
+                    data: { title: $('#txtTitle').val(), content: $('#txtContent').val(), userId: 30, tags: $('#txtTags').val() },
+                    success: function (view) {
+                        $('#ListContainer').html(view);
+                    }
+                });
+
+            })
+        });
+
+    </script>
+}

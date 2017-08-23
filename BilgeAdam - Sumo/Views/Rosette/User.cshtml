@@ -1,0 +1,95 @@
+﻿@using BilgeAdam___Sumo.DataAccess
+@model List<User>
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body id="rosetss">
+    <div class="col-md-9">
+        <div class="roseteList">
+            @if (TempData["RosetteTitlte"] != null)
+            {
+                Rosette roset = (Rosette)(TempData["RosetteTitlte"]);
+                <h3>@roset.RosetteName</h3>
+                <p>@roset.Description</p>
+            }
+
+            <hr style="width:750px;" />
+            <div class="col-md-12 !important">
+                <ul>
+                    @foreach (User item in Model)
+                    {
+                        <li class="btn btn-info col-md-3 !important" style="text-align:left !important;background-color:#c3d4e5 !important;line-height:25px !important;border:0 !important;margin:10px 0 10px 10px !important;">
+                            <div>
+                                <a href="~/User/Index" style="text-decoration:none !important;font-size:16px !important;display:block !important;color:#000 !important;"><b>@(item.FirstName + " " + item.LastName)</b></a>
+                                <span style="font-size:14px !important">&bull; @item.UserFollows.Count Takipçi </span>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3" style="display:inline">
+        <br />
+        <div class="information">
+            <span>Altın</span>
+            <p>
+                Altın rozetler kazanılması en zor olanlardır. Kazanmak için topluluğa katkıda bulunmalı ve özveri göstermelisin.
+            </p>
+            <span>Gümüş</span>
+            <p>
+                Gümüş rozet kazanmak pek çok gönderiyi düzenleme ve yüzlerce kez görüntülenen bir soru sormak gibi ileri seviyede katılım gerektirir.
+            </p>
+            <span>Bronz</span>
+            <p>
+                Bronz rozetler kazanılması en kolay olanlardır, bir gönderiyi düzenleme ya da oylama gibi basit katılım yeterlidir.
+            </p>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-9">
+            <div class="col-sm-12 pull-left" style="margin-left:-30px !important">
+                @for (int i = (int)TempData["Count"]; i > 0; i--)
+                {
+                    if (i == (int)TempData["PageNumber"])
+                    {
+                        <button type="button" style="background-color:#64bcfc" class="Paging btn btn-default pull-right" value="@(i)">@(i)</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="Paging btn btn-default pull-right" value="@(i)">@(i)</button>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</body>
+@section script{
+    <script>
+    var pages = $('.Paging');
+    pages.on("click", fc);
+    function fc(e) {
+        debugger;
+        e.preventDefault();
+        var number = $(this).val();
+
+        @{ Rosette rosets = (Rosette)TempData["RosetteTitlte"]; }
+
+            $.ajax({
+                url: '/Rosette/User?rosetteId=@rosets.Id' + '&pageNumber=' + number,
+                method: 'post',
+                success: function (view) {
+                    history.pushState('', '', this.url.replace(/[&?]X-Requested-With=XMLHttpRequest/i, ""));
+                    $('#rosetss').html(view);
+                    var pages = $('.Paging');
+                    pages.on("click", fc);
+                    $('#rosetss').animate({ scrollTop: 0 }, 300);
+                }
+            });
+        }
+    </script>
+}
+
